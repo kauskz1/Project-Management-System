@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  View Grades
+{% endblock title %}
+
+{% block content %}
+<table class="table table-sm table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th>Student</th>
+      <th>Subject</th>
+      <th>Grade</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for assignment in assignments %}
+      <tr>
+        <td>{{ assignment.student }}</td>
+        <td>{{ assignment.subject }}</td>
+        <td>{{ assignment.grade }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock content %}

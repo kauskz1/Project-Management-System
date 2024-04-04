@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}View Project{% endblock title %}
+{% block content %}
+  <div class="table-responsive">
+    <table id="studenttable" class="table table-bordered table-hover" data-page-length='100'>
+      <thead class="thead-light">
+        <tr>
+          <th>S/N</th>
+          <th>Full Name</th>
+          <th>Registration Number</th>
+          <th>Project</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for student in object_list %}
+          <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ student.surname}} {{student.firstname }} {{student.other_name }}</td>
+            <td>{{ student.registration_number}}</td>
+            <td>
+              {% for assignment in student.studentsubjectassignment_set.all %}
+                {{ assignment.subject.name }}
+                {% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
+
+
+{% block morejs %}
+<script>
+  $('#studenttable').DataTable({});
+</script>
+{% endblock morejs %}

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Select Student(s) <span class="small">and then click on proceed</span>
+  <div class="card-tools">
+    <p class="small btn btn-tool">You can also search by name/class by typing in the search box</p>
+  </div>
+{% endblock title %}
+
+{% block content %}
+<form method="POST">
+  {% csrf_token %}
+  <table id="studenttable" class="table table-sm table-bordered" data-page-length='100'>
+    <thead class="thead-light">
+      <tr>
+        <th>Select</th>
+        <th>Registration Number</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>Project</th>
+        <th>Assign Grade</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for student in students %}
+        <tr>
+          <td><input type="checkbox" name="students" value="{{ student.id }}"></td>
+          <td>{{ student.registration_number }}</td>
+          <td>{{ student }}</td>
+          <td>{{ student.current_class }}</td>
+          <td>
+            {% for assignment in student.studentsubjectassignment_set.all %}
+              {{ assignment.subject.name }} - {{ assignment.subject.details }}
+              <br>
+            {% endfor %}
+          </td>
+          <td>
+            <select name="grade_{{ student.id }}" class="form-control">
+              <option value="A+">A+</option>
+              <option value="A">A</option>
+              <option value="B">B</option>
+              <option value="C">C</option>
+              <option value="D">D</option>
+              <option value="E">E</option>
+              <option value="F">F</option>
+            </select>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <input type="submit" class="btn btn-success mt-2" value="Proceed">
+</form>
+{% endblock content %}

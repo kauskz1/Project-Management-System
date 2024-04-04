@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Assign Project{% endblock title %}
+{% block content %}
+  <div class="table-responsive">
+    <table id="studenttable" class="table table-bordered table-hover" data-page-length='100'>
+      <thead class="thead-light">
+        <tr>
+          <th>S/N</th>
+          <th>Full Name</th>
+          <th>Registration Number</th>
+          <th>Class</th>
+          <th>Assign Project</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for student in object_list %}
+          <tr>
+            <td>{{ forloop.counter}}</td>
+            <td>{{ student.surname}} {{student.firstname }} {{student.other_name }}</td>
+            <td>{{ student.registration_number}}</td>
+            <td>{{ student.current_class}}</td>
+            <td> 
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="student_regno" value="{{ student.registration_number }}">
+                <div class="form-group">
+                  <select name="subject_name" class="form-control" required>
+                    {% for subject in subjects %}
+                      <option value="{{ subject.name }}">{{ subject.name }}</option>
+                    {% endfor %}
+                  </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Assign</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+  </div>
+{% endblock content %}
+
+
+{% block morejs %}
+<script>
+  $('#studenttable').DataTable({});
+</script>
+{% endblock morejs %}
